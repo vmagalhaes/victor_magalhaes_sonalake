@@ -1,0 +1,67 @@
+<table class="table table-bordered table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th (click)="onSort(col)" *ngFor="let col of columns" scope="col">
+        {{ col.label }}
+        <ng-container *ngIf="col.sort?._order === 'desc'; else ascIcon">
+          <svg class="bi bi-arrow-down-short" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M6.646 9.646a.5.5 0 01.708 0L10 12.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z" clip-rule="evenodd"></path>
+            <path fill-rule="evenodd" d="M10 6.5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V7a.5.5 0 01.5-.5z" clip-rule="evenodd"></path>
+          </svg>
+        </ng-container>
+        <ng-template #ascIcon>
+          <svg *ngIf="col.sort?._order === 'asc'" class="bi bi-arrow-up-short" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10 7.5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V8a.5.5 0 01.5-.5z" clip-rule="evenodd"></path>
+            <path fill-rule="evenodd" d="M9.646 6.646a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L10 7.707l-2.646 2.647a.5.5 0 01-.708-.708l3-3z" clip-rule="evenodd"></path>
+          </svg>
+        </ng-template>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="data.length > 0; else noResultsFound">
+      <tr *ngFor="let row of data">
+        <ng-container *ngFor="let col of columns">
+          <th *ngIf="col.id === 'id'; else tds">{{ row[col.id] }}</th>
+          <ng-template #tds>
+            <td *ngIf="col.id !== 'actions'; else actionsTemplate">{{ row[col.id] }}</td>
+            <ng-template #actionsTemplate>
+              <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                  <button type="button" class="btn btn-secondary" (click)="onAction(row.id, 'edit')">
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onAction(row.id, 'remove')">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+                  </button>
+                </div>
+              </td>
+            </ng-template>
+          </ng-template>
+        </ng-container>
+      </tr>
+    </ng-container>
+    <ng-template #noResultsFound>
+      <tr>
+        <td class="text-center" [attr.colspan]="columns.length">No Results Found</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
+
+<nav aria-label="Data grid navigation">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" [class.disabled]="pagination._page === 1">
+      <a class="page-link" (click)="onPageClick('previous')" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item" *ngFor="let page of pagination?.pages" [class.active]="page.activated">
+      <a class="page-link" (click)="onPageClick(page)">
+        {{ page.value }}
+        <span *ngIf="page.activated" class="sr-only">(current)</span>
+      </a>
+    </li>
+    <li class="page-item" [class.disabled]="pagination._page === pagination.pages.length">
+      <a class="page-link" (click)="onPageClick('next')">Next</a>
+    </li>
+  </ul>
+</nav>

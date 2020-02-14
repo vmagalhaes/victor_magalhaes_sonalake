@@ -1,0 +1,14 @@
+<h1>List View</h1>
+
+<div class="row">
+  <div class="col-sm-6">
+    <sl-search (searchChange)="onSearch($event)"></sl-search>
+  </div>
+  <div class="col-sm-6 text-sm-right">
+    <a id="add-new" routerLink="character/add" class="btn btn-primary mb-3">Add New</a>
+  </div>
+</div>
+
+<sl-table #tableComponent [columns]="columns" [data]="characters" (remove)="onRemove($event)"
+          (edit)="onEdit($event)" (sort)="onSort($event)" [(pagination)]="pagination"
+          (pageChange)="onPageChange($event)"></sl-table>

@@ -1,0 +1,20 @@
+
+> sonalake-task-angular@0.0.0 api /home/fe-vi/Documents/sonalake-sonalake-task-angular
+> json-server --watch db.json "serve"
+
+
+  \{^_^}/ hi!
+
+  Loading db.json
+  Done
+
+  Resources
+  http://localhost:3000/species
+  http://localhost:3000/characters
+
+  Home
+  http://localhost:3000
+
+  Type s + enter at any time to create a snapshot of the database
+  Watching...
+
